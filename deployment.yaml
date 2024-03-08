@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: forecast-api-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: forecast-api
+  template:
+    metadata:
+      labels:
+        app: forecast-api
+    spec:
+      containers:
+      - name: forecast-api
+        image: <YOUR-ACR-NAME>.azurecr.io/forecast-api:latest
+        ports:
+        - containerPort: 5000
+        env:
+        - name: GENERATE_ENDPOINT
+          value: "http://<WORKSPACE-LLAMA-CLUSTER-IP>/generate"
+        - name: GENERATE_ENDPOINT_CHAT
+          value: "http://<WORKSPACE-LLAMA-CHAT-CLUSTER-IP>/chat"
